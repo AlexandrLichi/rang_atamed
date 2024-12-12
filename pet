@@ -1,9 +1,10 @@
 <?php
-
     include_once('./vendor/autoload.php');
     include_once('./vendor/command/command.php');
     include_once('./vendor/Pet/chain/chain.php');
     include_once('./vendor/command/FTP/FTP.php');
+    include_once('./vendor/command/bat/bat.php');
+    date_default_timezone_set(env('TIME_ZONE', 'Europe/Moscow'));
     
     use Command\Command;
     

@@ -1,12 +1,14 @@
 import { integ } from "../../rocet/core/integration";
 import { transition } from "../../router/api";
 
-export function HeaderTech(){
+export function HeaderTech(props: { data?: any }) {
+    console.log(props.data);
     return <header className="admin-header">
             <div className="center-header">
                 <div className="btn-block">
                   <logo onclick={()=>transition('/admin')} >Reviews And Ratings</logo>
-                  <p style="font-size: 12px;">Тех-канал</p>
+                    <p style="font-size: 12px;">Тех-канал </p>
+                    <p style="font-size: 12px;">{ props.data['GIT']}</p>
                 </div>
 
                 <div className="btn-block" >

@@ -15,20 +15,14 @@ class Ftp{
     public $dirHost = "";
     public $pasv = true;
     private $dirpwd = "";
-
+    public $fileIgnore = [];
+    public $dirIgnore = [];
 
     function connect():bool
     {
         try{
-            $this->connect = ftp_connect($this->host, $this->port);
-            
-            if($this->connect){
-                ftp_login($this->connect,$this->login, $this->password);
-                return true;
-            }else{
-                return false;
-            }
-
+            $this->connect = @ftp_connect($this->host, $this->port);
+            return $this->connect && @ftp_login($this->connect,$this->login, $this->password)? true :false;
         } catch (Exception $e) {
             return false;
         }
@@ -37,13 +31,15 @@ class Ftp{
     
     function connectCount($count):bool
     {
+        ini_set("display_errors", 0);
         for ($i = 1; $i < $count; $i++) {
 
-            if ($this->connect()) {
-                echo "connect ftp \n";
+            if (@$this->connect()) {
+                echo "\033[92m Connection ftp \033[0m \n\r";
                return true;
             } else {
-                echo "Попытка подключения ftp $i\n ";
+                $n = $i + 1;
+                echo " \033[37m Попытка подключения ftp $n \033[0m \n ";
                 sleep(5);
             }
         }
@@ -54,14 +50,16 @@ class Ftp{
 
     function loadfile($dirFile, $ftpDir, $fileName):bool
     {
-
+        if(in_array($fileName, $this->fileIgnore) || in_array("$ftpDir.'/'.$fileName", $this->fileIgnore) ){
+            echo " \033[31m Игнорируемый файл $fileName \n \033[0m";
+            return false;
+        }
         echo "Загружаю файл $fileName \n";
 
         $fp = fopen($dirFile.'/'. $fileName , 'r');
 
         if(ftp_fput($this->connect, $ftpDir.'/'.$fileName, $fp, FTP_BINARY)){
-            
-            echo "Файл $fileName успешно загружен \n";
+            echo "\033[92m Файл $fileName успешно загружен \033[0m\n";
             return true;
         }else{
 
@@ -69,11 +67,11 @@ class Ftp{
                 $this->dir($this->dirHost);
                 ftp_pasv($this->connect, $this->pasv);
                 if(ftp_fput($this->connect, $ftpDir . '/' . $fileName, $fp, FTP_BINARY)){
-                    echo "Файл $fileName успешно загружен \n";
+                    echo " \033[92m Файл $fileName успешно загружен \033[0m\n";
                 }
 
             }
-            echo "При загрузке $fileName произошла проблема \n";
+            echo " \033[31m При загрузке $fileName произошла проблема \033[0m \n";
             return false;
         }
 
@@ -82,15 +80,15 @@ class Ftp{
 
 
     function dir($dir){
-
+      
         if (ftp_chdir($this->connect, $dir))
         {
             $this->dirpwd = $dir;
           
-            echo "Новая текущая директория: " . ftp_pwd($this->connect) . "\n";
+            echo " \033[92m Новая текущая директория: " . ftp_pwd($this->connect) . "  \033[0m \n";
             return true;
         } else {
-            echo "Не удалось сменить директорию \n";
+            echo " \033[31m Не удалось сменить директорию  \033[0m \n";
             return false;
         }
 
@@ -172,18 +170,13 @@ class Ftp{
 
     function putDirFiles($dirLocal, $dirHost){
         ftp_pasv($this->connect, $this->pasv);
-      
-
         $files = scandir($dirLocal);
-
-
 
        foreach ($files as $file) {
            if ($file == '.' || $file == '..') continue;
            if(is_file($dirLocal . '/' . $file)){
                $this->loadfile($dirLocal, $dirHost,  $file );
            }
-
        }
 
      $list  = $this->list($dirHost);
@@ -191,8 +184,13 @@ class Ftp{
        foreach($files as $file){
             if($file == '.' || $file == '..') continue;
 
+
             if(is_dir($dirLocal.'/'.$file)){
 
+            if(in_array($file, $this->dirIgnore)){
+                echo "\033[31m Игнорируемая директория $file  \033[0m \n";
+                continue;
+            }
             if(!$this->is_list($list, $file)){
                 $this->createDir($dirHost . '/' . $file);
             }
@@ -207,10 +205,10 @@ class Ftp{
     function createDir($dir):bool
     {
         if (ftp_mkdir($this->connect, $dir)) {
-            echo "Создана директория $dir \n";
+            echo "\033[93m Создана директория $dir \n \033[0m";
             return true;
         } else {
-            echo "Не удалось создать директорию $dir \n";
+            echo "\033[31m Не удалось создать директорию $dir  \033[0m  \n";
             return false;
         }
     }

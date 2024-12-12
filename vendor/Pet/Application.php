@@ -12,6 +12,7 @@ class Application{
     private $error;
     
     public function __construct() {
+        date_default_timezone_set(env('TIME_ZONE', 'Europe/Moscow'));
         $this->error = new Logs();
         $this->Router = new Router();
         $this->csrf = [MiddlewareCSRF::class,'check'];

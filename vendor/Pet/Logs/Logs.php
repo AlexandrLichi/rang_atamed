@@ -39,7 +39,7 @@ class Logs{
 
        switch($this->clear_str){
         case "everyday":
-            if(date("d", filemtime($path)) != date("d"))$this->clear(); break;
+            if(date("d", filemtime($path)) != date("d")) $this->clear(); break;
        }
 
         file_put_contents($path, $data, FILE_APPEND | LOCK_EX);

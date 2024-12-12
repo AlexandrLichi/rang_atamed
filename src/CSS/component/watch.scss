@@ -68,7 +68,7 @@
     }
 }
 .mess-modal{
-    position: absolute;
+    position: fixed;
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -87,6 +87,7 @@
         border-radius: 10px;
         border: none;
         padding: 30px 20px 20px 20px;
+        margin: 100px;
         
         button{
             border: none;

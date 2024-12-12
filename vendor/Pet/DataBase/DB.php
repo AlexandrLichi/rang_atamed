@@ -25,13 +25,14 @@ class DB{
     }
 
 
-    function reload_cache_modification_time(){
+    function reload_cache_modification_time() {
+        if ($this->CACHE_DB == 1) {
 
-       $time =  $this->update_time();
-   
-       if(Cache::factory()->time_section_exits($this->table, $time)){
-            Cache::factory()->clear_cache_section($this->table);
-                           
+            $time =  $this->update_time();
+
+            if (Cache::factory()->time_section_exits($this->table, $time)) {
+                Cache::factory()->clear_cache_section($this->table);
+            }
         }
     }
     
@@ -40,15 +41,15 @@ class DB{
     {
         $nameCache = $this->table.implode('-', array_merge($column, $join)).$where;
 
-        $data = $this->CACHE_DB == 1?Cache::factory()->get($nameCache, $this->table):false;
+        $data = $this->CACHE_DB == 1 ? Cache::factory()->get($nameCache, $this->table) : false;
 
         if(gettype($data) == 'array') return $data;
         
 
         if(!$this->Mysql) $this->connect();
-     
+           
         $query = "`".$this->escape("` , `", $column, 'select')."`";
-
+       
         $joinStr = '';
 
         if(count($column) == 0)  $query = "*";
@@ -179,12 +180,18 @@ class DB{
         if (!$this->error) {
            
             $sql = $this->Mysql->query($query);
-            $this->Mysql->close();
+            
             return gettype($sql) == 'object'? $sql->fetch_all(MYSQLI_ASSOC): $sql;
             
         } 
             return $this->error;
         
+    }
+    function __destruct()
+    {
+        if($this->Mysql){
+            $this->Mysql->close();
+        }
     }
 
 
@@ -214,7 +221,7 @@ class DB{
                      $tableColumn =  explode('.', $value);
                      $value = "{$tableColumn[0]}`.`{$tableColumn[1]}"; 
                 }
-                       
+                if(!$this->Mysql) $this->connect();
                 $str .= $this->Mysql->real_escape_string($value).$separate;
             }else{
                 $str .= $value . $separate;
@@ -266,7 +273,7 @@ class DB{
             $DB = $this->NameBase;
             $tb = $this->table; 
             $time =  $this->query("SELECT UPDATE_TIME FROM information_schema.tables WHERE TABLE_SCHEMA = '$DB' AND TABLE_NAME = '$tb';");
-            return strtotime($time[0]['UPDATE_TIME']);
+            return $time[0]['UPDATE_TIME']?strtotime($time[0]['UPDATE_TIME']):time();
         }
         return 0;
     }

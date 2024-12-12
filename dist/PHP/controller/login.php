@@ -43,9 +43,8 @@ class LoginController extends Controller{
                 $auth = ['auth' => uniqid()];
                 cookie()->set(['enter'=>"1"]);
                 
-                $this->cookie->httpOnly(["auth"=>password_hash($auth['auth'], PASSWORD_DEFAULT)]);
+                $this->cookie->set(["auth"=>password_hash($auth['auth'], PASSWORD_DEFAULT)]);
                 $this->user->findUpdate(['id'=>$data[0]['id']], $auth);
-                
                 $this->json(["enter"=>"Yes"]);
             }else{
 

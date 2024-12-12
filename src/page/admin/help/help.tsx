@@ -19,8 +19,8 @@ export function Help(data:any){
                     <p>На вашей старнице там где хотите добавить визуализацию требуеться добавить в тег head СSS и JS  подключения.</p>
                     <div className="code">
 
-                    <code data='1'>{`<link rel="stylesheet" href="${window.location.origin}/widgets/css">`}</code>
-                    <code data='2'>{`<script src="${window.location.origin}/widgets/js"></script>`}</code>
+                    <code data='1'>{`<link rel="stylesheet" href="${window.location.origin}/widget/css">`}</code>
+                    <code data='2'>{`<script src="${window.location.origin}/widget/js"></script>`}</code>
 
                     </div>
                     <br></br>

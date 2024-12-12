@@ -61,7 +61,7 @@ export function upload(data:any){
           PL.push(
              
               <div className="url-upload" style={'flex-direction: column;'}>
-                    <h4>Сверка клиентов</h4>
+                    <h4>Запрос на получение отзывов со всех площадок</h4>
                     <InputText style={'width: 100%;'} value={urlParalele} placeholder="" name={urlParalele} onclickRefresh={()=>onrefreshMath(urlParalele,'paralele' )} disabled/>
                     <div className="otvet-server" name="paralele" >
                         <p>Ответ сервера :</p>

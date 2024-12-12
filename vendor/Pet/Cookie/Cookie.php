@@ -17,7 +17,7 @@ class Cookie{
     }
 
     public function httpOnly($data = [], $path = '/'){
-        // ini_set('session.cookie_httponly', 1);
+        ini_set('session.cookie_httponly', 1);
         $this->set($data, '/', true, true);
        
     }

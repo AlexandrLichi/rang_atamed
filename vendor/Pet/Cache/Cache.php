@@ -9,7 +9,7 @@ class Cache{
     public $acpu_exits_function = false;
     public $headerResponceBool = false;
     public $CACHE_SYSTEM = CACHE_SYSTEM;
-
+    public $CACHE_DB = CACHE_DB;
 
     public function __construct() 
     {
@@ -20,7 +20,11 @@ class Cache{
      function_exists('apcu_exists')&&
      function_exists('apcu_clear_cache')&& 
      $this->CACHE_SYSTEM == 1;
+    $this->createFolder();
+    }
 
+    function createFolder(){
+        // if($this->$CACHE_DB);
     }
 
 

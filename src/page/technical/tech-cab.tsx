@@ -51,7 +51,7 @@ export function Tech(data:any){
        
        context.render(()=>{
         return <context>
-            <HeaderTech/>
+            <HeaderTech data={data}/>
          <content>
             <NavTech data={data}/>
             <content-body>

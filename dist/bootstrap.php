@@ -1,24 +1,19 @@
 <?php
 
-
 declare(strict_types=1);
 
 use Pet\Application;
 
-require_once(__DIR__.'/../vendor/autoload.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
 
-spl_autoload_register(function (string $class){
-      
+spl_autoload_register(function (string $class) {
+
        $classN  = array_reverse(explode("\\", $class))[0];
-       $path = __DIR__."/PHP";
+       $path = __DIR__ . "/PHP";
        search_file($path, $classN);
 });
 
-date_default_timezone_set('Europe/Moscow');
+
 Application::started()->middleware()
-->fileRouter(__DIR__.'/PHP/router/router.php')
-->query();
-
-
-
-?>
+       ->fileRouter(__DIR__ . '/PHP/router/router.php')
+       ->query();

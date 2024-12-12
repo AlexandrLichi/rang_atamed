@@ -13,8 +13,8 @@ Router::get('/imap-update', [ApiController::class, 'updateImap']);
 Router::get('/callback-parser', [ApiController::class, 'updateReviewsCallback']);
 
 //внешние подключение js widget 
-Router::get('/widgets/js', [ApiController::class, 'getJsWigets']);
-Router::get('/widgets/css', [ApiController::class, 'getCssWigets']);
-Router::get('/widgets/{api}', [ApiController::class, 'getDataWidgets']);
-Router::options('/widgets/{api}', [ApiController::class, 'getDataWidgets']);
+Router::get('/widget/js', [ApiController::class, 'getJsWigets']);
+Router::get('/widget/css', [ApiController::class, 'getCssWigets']);
+Router::get('/widget/{api}', [ApiController::class, 'getDataWidgets']);
+Router::options('/widget/{api}', [ApiController::class, 'getDataWidgets']);
 ?>

@@ -1,5 +1,4 @@
 <?php $sample = $GLOBALS['sample'];?>
-
 <script>
     let imageStarActive = '<?=$sample['iconStar']['active'] ;?>'
     let imageStarDeactive = '<?=$sample['iconStar']['deactive'] ;?>'
@@ -23,4 +22,4 @@
     </div>
 </div>
 
-<script src="/view/static/stJS/stars.js"></script>
+<script src="/view/static/stJS/stars.js?<?=$sample['hash'];?>"></script>

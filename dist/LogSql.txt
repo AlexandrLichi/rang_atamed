@@ -1,2 +1,0 @@
->>> TIME: 12.08.2024 16:09:23 SQL: SELECT * FROM `client`  WHERE `client`.`api`='999-999-999' AND `client`.`filial`='Альтамед+ на Неделина' AND `client`.`platform_path`='2gis' AND `date-time` BETWEEN '2024-07-12' AND '2024-08-12'  
-

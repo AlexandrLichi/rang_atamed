@@ -18,18 +18,21 @@ class AuthMiddleware extends Controller {
 
 
     function Auth(Request $request){
-
+            
           $session =   new Session();
 
           $token = $this->cookie->get("auth");
-
-          if(!$token && $token = '') $request->location('\login');
+      
+          if(!$token || $token == '') {
+                 
+                  $request->location('\login');
+            }
 
             $users = (new UserModel())->getAllUsers();
             $control = -1;
            
             foreach($users as $i => $user){
-            
+                  
                   if(password_verify($user['auth'], $token)){
                         $control = $i;
                   }
